@@ -1,0 +1,1949 @@
+//This is a paid script pack and is not free to use.
+
+global string $m341_unWrapperVersion;
+$m341_unWrapperVersion = "unWrapper v0.1";
+
+
+//***********************************************************************************************************************************************************
+//* global procs
+//***********************************************************************************************************************************************************
+//***********************************************************************************************************************************************************
+//Help
+global proc helpmaUnwrapper ()
+{
+	global string $m341_unWrapper_HelpWindow;
+	
+	if (`window -exists $m341_unWrapper_HelpWindow`)
+	{
+		global string $m341_unWrapper_HelpWindow;
+		deleteUI $m341_unWrapper_HelpWindow;
+	}
+
+	global string $m341_unWrapperVersion;
+	$m341_unWrapper_HelpWindow = `window -title ("Help " + $m341_unWrapperVersion) -leftEdge 900 -topEdge 115 -toolbox true -sizeable false -resizeToFitChildren false -width 800 -height 800`;
+	scrollLayout;
+	rowColumnLayout -numberOfColumns 1;
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "LOADING THE TOOLBOX WITHOUT THE UV EDITOR";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-If you'd like to load the toolbox without attaching it to the UV editor, right click the unwrap shelf button and choose Load without UV editor.\n\n";
+
+
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "RESET";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Resets the toolbox back to defualt settings.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "CHECKER MAP";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Toggles the checker map on/off, press the plus or minus buttons to increase or decrease the checker map size.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "PLANAR MAP CAMERA";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Applies a camera based planar projection.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "UVS BY ANGLE CHECKBOX";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Turn on if you want the easy UVs button to create angle based UV mapping.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Type a number into the input field to define what angle the UV shells will be cut at, a good value to start with is 30 and then adjust from there to increase or decrease the number of shells created.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-The min value is 0 and the max value is 180, 0 makes a shell for every polygon and 180 makes a single shell for the whole mesh.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "UVS BY HARD EDGES CHECKBOX";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Turn on if you want the easy UVs button to cut UV shells where it finds hard edges.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "AUTO CUT SEAMS CHECKBOX";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Turn on if you want the easy UVs button to automatically create UV seams for you so cylindrical and spherical shapes can be unwrapped automatically.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "KEEP NORMALS CHECKBOX";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Turn on if you want the easy UVs button keep your current mesh normals instead of replacing them with the value from the UVs by angle input field.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "KEEP CURRENT SEAMS CHECKBOX";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Turn on if you want the easy UVs button to keep your existing UV cut edges.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "EASY UVS";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Automatically creates UVs for your mesh, use the checkboxes above the easy UVs button to configure how you'd like the easy UVs to be created, different checkbox combinations will create different results. By default the mesh normals are set to an angle of 30 and UV shells are created using that same angle with automatic seams for cylindrical shapes.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "SPIN, SPIN";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Rotates selected UVs left or right 90 degrees. The left spin button rotates left, and the right spin button rotates right.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "HIDE EDGES";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Toggles visability of polygon edges when an object is selected.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "SOFT";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Softens normals on selected components or mesh.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "HARD";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Hardens normals on selected components or mesh.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "HRD BORDER";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Hardens normals on all UV border edges.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "UNFOLD UV";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Unfolds selected UVs.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "STRAIGHTEN UV";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Straightens seleceted UVs.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "STRAIGHTEN SHELL";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Straightens the current UV shell based on the edge loop you select first. A tolerance of 30 is used for the straighten.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "CREATE SHELL";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Converts selected components into a new UV shell, for best results select faces first.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "ORIENT";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Orients the current UV shell to a right angle based on a single selected edge or two selected UVs on the same shell.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "3D CUT AND SEW";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Enters the 3D cut and sew tool and enables the checker map. While the 3D cut and sew tool is active the following hotkeys become available.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Double click an edge loop in the 3D viewport to cut those UV edges.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Hold Ctrl and double click an edge loop in the 3D viewport to sew those UV edges.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Select any number of edges and press x on the keyboard to cut those UV edges.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Hold Ctrl and single click any edge to sew that UV edge.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Drag select edges to cut those UV edges.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Hold Ctrl and drag select edges to sew those UV edges.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "EXIT";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Exits the 3D cut and sew tool, clicking the exit button will also exit any component mode and take you back to object mode.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "UNFOLD CHECKBOX";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Turn on if you want the unwrap button and easy UVs button to unfold UVs during UV layout.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "CURVED CHECKBOX";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Turn on if you want the unfold checkbox to use the curved method during UV layout. If the unfold checkbox is turned off the curved checkbox has no affect.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "SPIN CHECKBOX";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Turn on if you want the unwrap button and easy UVs button to rotate UV shells for best fit during UV layout.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "SCALE CHECKBOX";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Turn on if you want the unwrap button and easy UVs button to scale UV shells to the correct 3D ratios in the 0-1 UV space.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "ALL CHECKBOX";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Turn on if you want the unwrap button to layout all UVs on the current mesh. Turn off if you want the unwrap button to layout selected UVs.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-If the 3D cut and sew tool is active the unwrap button will always layout all UVs even if the checkbox is turned off, this prevents the unwrap process from failing when using the 3D cut and sew tool because that tool doesn't let you select UVs or shells when it's active.\n\n";
+	
+
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "MAP SIZE";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-The map size drop down allows you to control how padding works relative to what the final texture size is you're going to apply to the model. Set map size to the final resolution you plan to use on your model.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "PADDING";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Padding controls the amount of space between each UV shell and is relative to what you set the map size to. UV tile boundary spacing will automatically be half of whatever you set padding to.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "UNWRAP";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-Performs layout UVs with the checkbox features you've configured above.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-By default shells are unfolded, rotated, and scaled so you can click unwrap after every edit you make using 3D cut and sew to see an update and visualize your unwrap as you work.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-After pressing the unwrap button once you can then press the g key on the keyboard to unwrap the mesh again and again each time you make a new edit using the 3D cut and sew tool. Using the g key workflow can save a lot of time.\n";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "-To fine tune your unwrap turn off the unfold, spin, and scale checkboxes to make custom edits to your UV shells without losing those edits next time you press the unwrap button.\n\n";
+	
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -font "boldLabelFont" -label "YOUTUBE VIDEOS HERE";
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "<a href=\"https://youtu.be/6tYpY3kVLn8?list=PLAUgGUDpaMENfz8Nd7Zw-LxDK_v5ZflY6\"style=\"color:rgb(187,187,187)\;\">https://youtu.be/6tYpY3kVLn8?list=PLAUgGUDpaMENfz8Nd7Zw-LxDK_v5ZflY6</a><br>";
+	
+	text -align "left" -wordWrap 1 -width 780 -hl 1 -label "<a href=\"https://youtu.be/XsJ_2ClVzIw?list=PLAUgGUDpaMENfz8Nd7Zw-LxDK_v5ZflY6\"style=\"color:rgb(187,187,187)\;\">https://youtu.be/XsJ_2ClVzIw?list=PLAUgGUDpaMENfz8Nd7Zw-LxDK_v5ZflY6</a><br><br>";
+	
+	showWindow $m341_unWrapper_HelpWindow;
+}
+
+//*******************************************************************************************************
+//Reset 
+global proc m341_unWrapper_Reset()
+{
+	//UVs by angle
+	checkBox -e -value 1 unWrapper_uvsByAngle_CheckBoxName;
+	global int $m341_unWrapper_uvsByAngle_UserInput;
+	$m341_unWrapper_uvsByAngle_UserInput = `checkBox -q -value unWrapper_uvsByAngle_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_uvsByAngleCheckBox_VarName" $m341_unWrapper_uvsByAngle_UserInput;
+	
+	//angle float field
+	intField -edit -value 30 unwrapper_angle_IntFieldName;
+	global int $m341_unWrapper_angle_UserInput;
+	$m341_unWrapper_angle_UserInput = `intField -query -value unwrapper_angle_IntFieldName`;
+	optionVar -intValue "m341_unWrapper_angleIntField_VarName" $m341_unWrapper_angle_UserInput;
+
+	//UVs by hard edges
+	checkBox -edit -value 0 unWrapper_uvsByHardEdges_CheckBoxName;
+	global int $m341_unWrapper_uvsByHardEdges_userInput;
+	$m341_unWrapper_uvsByHardEdges_userInput = `checkBox -q -value unWrapper_uvsByHardEdges_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_uvsByHardEdgesCheckBox_VarName" $m341_unWrapper_uvsByHardEdges_userInput;
+	
+	//auto cut seams
+	checkBox -edit -value 1 unWrapper_autoCutSeams_CheckBoxName;
+	global int $m341_unWrapper_autoCutSeams_userInput;
+	$m341_unWrapper_autoCutSeams_userInput = `checkBox -q -value unWrapper_autoCutSeams_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_autoCutSeamsCheckBox_VarName" $m341_unWrapper_autoCutSeams_userInput;
+	
+	//keep normals
+	checkBox -edit -value 0 unWrapper_keepNormals_CheckBoxName;
+	global int $m341_unWrapper_keepNormals_userInput;
+	$m341_unWrapper_keepNormals_userInput = `checkBox -q -value unWrapper_keepNormals_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_keepNormalsCheckBox_VarName" $m341_unWrapper_keepNormals_userInput;
+	
+	//keep current seams
+	checkBox -edit -value 0 unWrapper_keepCurrentSeams_CheckBoxName;
+	global int $m341_unWrapper_keepCurrentSeams_userInput;
+	$m341_unWrapper_keepCurrentSeams_userInput = `checkBox -q -value unWrapper_keepCurrentSeams_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_keepCurrentSeamsCheckBox_VarName" $m341_unWrapper_keepCurrentSeams_userInput;
+	
+	//unfold
+	checkBox -edit -value 1 unWrapper_unfold_CheckBoxName;
+	global int $m341_unWrapper_unfold_userInput;
+	$m341_unWrapper_unfold_userInput = `checkBox -q -value unWrapper_unfold_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_unfoldCheckBox_VarName" $m341_unWrapper_unfold_userInput;
+	
+	checkBox -edit -value 1 unWrapper_curved_CheckBoxName;
+	global int $m341_unWrapper_curved_userInput;
+	$m341_unWrapper_curved_userInput = `checkBox -q -value unWrapper_curved_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_curvedCheckBox_VarName" $m341_unWrapper_curved_userInput;
+	
+	checkBox -edit -value 1 unWrapper_spin_CheckBoxName;
+	global int $m341_unWrapper_spin_userInput;
+	$m341_unWrapper_spin_userInput = `checkBox -q -value unWrapper_spin_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_spinCheckBox_VarName" $m341_unWrapper_spin_userInput;
+	
+	checkBox -edit -value 1 unWrapper_scale_CheckBoxName;
+	global int $m341_unWrapper_scale_userInput;
+	$m341_unWrapper_scale_userInput = `checkBox -q -value unWrapper_scale_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_scaleCheckBox_VarName" $m341_unWrapper_scale_userInput;
+	
+	checkBox -edit -value 1 unWrapper_all_CheckBoxName;
+	global int $m341_unWrapper_all_userInput;
+	$m341_unWrapper_all_userInput = `checkBox -q -value unWrapper_all_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_allCheckBox_VarName" $m341_unWrapper_all_userInput;
+	
+	global string $m341_unWrapperVersion;
+	print ($m341_unWrapperVersion + " reset to default");
+}
+
+//***********************************************************************************************************************************************************
+//checker map toggle
+global proc button1unWrapper ()
+{
+	if ((size(`textureWindow -query -parent polyTexturePlacementPanel1`)) == 0)
+	{
+		print "Please open UV editor first";
+	}
+	
+	else
+	{
+		global int $uvToggleChecker;
+		if ($uvToggleChecker == 0)
+		{
+			//Turn on UV editor image options so you can see wireframe
+			string $maCurrentMayaYearUVFix = `about -product`;
+			if(`gmatch $maCurrentMayaYearUVFix "*202*"`)
+			{
+				//TURN ON CHECKERS 2020
+				if(`getModifiers`%2) performTextureViewCheckerMapOptions 1; else{ textureWindowDisplayCheckered(1,1); textureWindow -edit -checkerColorMode 0 polyTexturePlacementPanel1; performTextureViewCheckerMapOptions 0;}txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+				textureWindow -edit -checkerColorMode 0  -checkerColor1 0.8 0.8 0.8  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+				//TURN ON SHADED 2020
+				textureWindow -edit -solidMapPerShell 1 polyTexturePlacementPanel1; DisplayUVShaded;
+				//DIM IMAGE 2020
+				if(`getModifiers`%2) performTextureViewDimImageOptions 1; else{textureWindowImageDimming(1,1); performTextureViewDimImageOptions 0;} txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+				uvTbImageDimmingChangedCallback;
+				textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+				//TURN ON IMAGE 2020
+				$maCheckIfImageOn2020 = `textureWindow -q -imageDisplay polyTexturePlacementPanel1`;
+				if ($maCheckIfImageOn2020 == 0)
+				{
+					ToggleUVTextureImage;
+				}
+			}
+			if(`gmatch $maCurrentMayaYearUVFix "*2019*"`)
+			{
+				//TURN ON CHECKERS 2019
+				if(`getModifiers`%2) performTextureViewCheckerMapOptions 1; else{ textureWindowDisplayCheckered(1,1); textureWindow -edit -checkerColorMode 0 polyTexturePlacementPanel1; performTextureViewCheckerMapOptions 0;}txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+				textureWindow -edit -checkerColorMode 0  -checkerColor1 0.8 0.8 0.8  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+				//TURN ON SHADED 2019
+				textureWindow -edit -solidMapPerShell 1 polyTexturePlacementPanel1; DisplayUVShaded;
+				//DIM IMAGE 2019
+				if(`getModifiers`%2) performTextureViewDimImageOptions 1; else{textureWindowImageDimming(1,1); performTextureViewDimImageOptions 0;} txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+				uvTbImageDimmingChangedCallback;
+				textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+				//TURN ON IMAGE 2019
+				$maCheckIfImageOn2019 = `textureWindow -q -imageDisplay polyTexturePlacementPanel1`;
+				if ($maCheckIfImageOn2019 == 0)
+				{
+					ToggleUVTextureImage;
+				}
+			}
+			if(`gmatch $maCurrentMayaYearUVFix "*2018*"`)
+			{
+				//TURN ON CHECKER 2018
+				textureWindow -edit -solidMapPerShell 1 -displaySolidMap 1 polyTexturePlacementPanel1;
+				//TURN ON SHADED 2018
+				textureWindow -edit -displayCheckered 1 -checkerColorMode 0  -checkerColor1 1 1 1  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+				//DIM IMAGE 2018
+				textureWindow -e -imageDim 1 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+				textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+				//TURN ON IMAGE 2018
+				textureWindow -edit -imageDisplay 1 polyTexturePlacementPanel1;
+				string $texWinName[] = `getPanel -sty polyTexturePlacementPanel`;
+				txtWndUpdateEditor( $texWinName[0], "textureWindow", "null", 101 );
+			}
+			if(`gmatch $maCurrentMayaYearUVFix "*2017*"`)
+			{
+				//TURN ON CHECKER 2017
+				textureWindow -edit -displayCheckered 1 -checkerColorMode 0  -checkerColor1 1 1 1  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+				//TURN ON SHADED 2017
+				textureWindow -edit -solidMapPerShell 1 -displaySolidMap 1 polyTexturePlacementPanel1;
+				//DIM IMAGE 2017
+				textureWindow -e -imageDim 1 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+				textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+				//TURN ON IMAGE 2017
+				textureWindow -edit -imageDisplay 1 polyTexturePlacementPanel1;
+				string $texWinName[] = `getPanel -sty polyTexturePlacementPanel`;
+				txtWndUpdateEditor( $texWinName[0], "textureWindow", "null", 101 );
+			}
+			global int $uvToggleChecker;
+			$uvToggleChecker = 1;
+			print "UV checker map on";
+		}
+		
+		else if ($uvToggleChecker == 1)
+		{
+			//Turn off UV editor image options so you don't see checker
+			string $maCurrentMayaYearUVFix2 = `about -product`;
+			if(`gmatch $maCurrentMayaYearUVFix2 "*202*"`)
+			{
+				//TURN OFF CHECKER 2020
+				textureWindowDisplayCheckered(1,0);
+				//TURN OFF SHADED 2020
+				DisplayUVWireframe;
+				//TURN OFF DIM IMAGE 2020
+				textureWindow -e -imageDim 0 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+				if(`getModifiers`%2) performTextureViewDimImageOptions 1; else{textureWindowImageDimming(1,0);} txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+			}
+			if(`gmatch $maCurrentMayaYearUVFix2 "*2019*"`)
+			{
+				//TURN OFF CHECKER 2019
+				textureWindowDisplayCheckered(1,0);
+				//TURN OFF SHADED 2019
+				DisplayUVWireframe;
+				//TURN OFF DIM IMAGE 2019
+				textureWindow -e -imageDim 0 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+				if(`getModifiers`%2) performTextureViewDimImageOptions 1; else{textureWindowImageDimming(1,0);} txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+			}
+			if(`gmatch $maCurrentMayaYearUVFix2 "*2018*"`)
+			{
+				//TURN OFF CHECKER 2018
+				textureWindow -edit -solidMapPerShell 0 -displaySolidMap 0 polyTexturePlacementPanel1;
+				//TURN OFF SHADED 2018
+				textureWindow -edit -displayCheckered 0 -checkerColorMode 0 polyTexturePlacementPanel1;
+				//TURN OFF DIM IMAGE 2018
+				textureWindow -e -imageDim 0 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+			}
+			if(`gmatch $maCurrentMayaYearUVFix2 "*2017*"`)
+			{	
+				//TURN OFF CHECKER 2017
+				textureWindow -edit -displayCheckered 0 -checkerColorMode 0 polyTexturePlacementPanel1;
+				//TURN OFF SHADED 2017
+				textureWindow -edit -solidMapPerShell 0 -displaySolidMap 0 polyTexturePlacementPanel1;
+				//TURN OFF DIM IMAGE 2017
+				textureWindow -e -imageDim 0 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+			}
+			global int $uvToggleChecker;
+			$uvToggleChecker = 0;
+			print ("UV checker map off");
+		}
+	}
+}
+
+
+//***********************************************************************************************************************************************************
+//checker density up
+global proc button2unWrapper ()
+{
+	global int $checkerDensityUp;
+	global string $texWinName[];
+	$texWinName = `getPanel -sty polyTexturePlacementPanel`;
+	$checkerDensityUp = `textureWindow -q -checkerDensity $texWinName`;
+	
+	if ($checkerDensityUp > 2048)
+	{
+		textureWindow -e -checkerDensity 2048 $texWinName;
+		print "Checker map set to 2048";
+	}
+
+	if ($checkerDensityUp <= 1024)
+	{
+		textureWindow -e -checkerDensity 2048 $texWinName[0];
+		print "Checker map set to 2048";
+	}
+		
+	if ($checkerDensityUp <= 512)
+	{
+		textureWindow -e -checkerDensity 1024 $texWinName[0];
+		print "Checker map set to 1024";
+	}
+	
+	if ($checkerDensityUp <= 256)
+	{
+		textureWindow -e -checkerDensity 512 $texWinName[0];
+		print "Checker map set to 512";
+	}
+	
+	if ($checkerDensityUp <= 128)
+	{
+		textureWindow -e -checkerDensity 256 $texWinName[0];
+		print "Checker map set to 256";
+	}
+	
+	if ($checkerDensityUp <= 64)
+	{
+		textureWindow -e -checkerDensity 128 $texWinName[0];
+		print "Checker map set to 128";
+	}
+	
+	if ($checkerDensityUp <= 32)
+	{
+		textureWindow -e -checkerDensity 64 $texWinName[0];
+		print "Checker map set to 64";
+	}
+	
+	if ($checkerDensityUp <= 16)
+	{
+		textureWindow -e -checkerDensity 32 $texWinName[0];
+		print "Checker map set to 32";
+	}
+	
+	if ($checkerDensityUp <= 8)
+	{
+		textureWindow -e -checkerDensity 16 $texWinName[0];
+		print "Checker map set to 16";
+	}
+	
+	if ($checkerDensityUp <= 4)
+	{
+		textureWindow -e -checkerDensity 8 $texWinName[0];
+		print "Checker map set to 8";
+	}
+	
+	if ($checkerDensityUp <= 2)
+	{
+		textureWindow -e -checkerDensity 4 $texWinName[0];
+		print "Checker map set to 4";
+	}
+		
+	if ($checkerDensityUp <= 1)
+	{
+		textureWindow -e -checkerDensity 2 $texWinName[0];
+		print "Checker map set to 2";
+	}
+}
+
+
+//***********************************************************************************************************************************************************
+//checker density down
+global proc button3unWrapper ()
+{
+	global int $checkerDensityDown;
+	global string $texWinName[];
+	$texWinName = `getPanel -sty polyTexturePlacementPanel`;
+	$checkerDensityDown = `textureWindow -q -checkerDensity $texWinName`;
+
+	if ($checkerDensityDown > 2048)
+	{
+		textureWindow -e -checkerDensity 2048 $texWinName[0];
+		print "Checker map set to 2048";
+	}
+	
+	if ($checkerDensityDown <= 2048)
+    {
+        textureWindow -e -checkerDensity 1024 $texWinName[0];
+        print "Checker map set to 1024";
+    }
+	
+	if ($checkerDensityDown <= 1024)
+    {
+		textureWindow -e -checkerDensity 512 $texWinName[0];
+        print "Checker map set to 512";
+    }
+
+	if ($checkerDensityDown <= 512)
+    {
+        textureWindow -e -checkerDensity 256 $texWinName[0];
+        print "Checker map set to 256";
+    }
+
+	if ($checkerDensityDown <= 256)
+    {
+        textureWindow -e -checkerDensity 128 $texWinName[0];
+        print "Checker map set to 128";
+    }
+
+	if ($checkerDensityDown <= 128)
+    {
+        textureWindow -e -checkerDensity 64 $texWinName[0];
+        print "Checker map set to 64";
+    }
+
+	if ($checkerDensityDown <= 64)
+    {
+        textureWindow -e -checkerDensity 32 $texWinName[0];
+        print "Checker map set to 32";
+    }
+
+	if ($checkerDensityDown <= 32)
+    {
+        textureWindow -e -checkerDensity 16 $texWinName[0];
+        print "Checker map set to 16";
+    }
+
+	if ($checkerDensityDown <= 16)
+	{
+		textureWindow -e -checkerDensity 8 $texWinName[0];
+		print "Checker map set to 8";
+	}
+
+	if ($checkerDensityDown <= 8)
+	{
+		textureWindow -e -checkerDensity 4 $texWinName[0];
+		print "Checker map set to 4";
+	}
+
+	if ($checkerDensityDown <= 4)
+	{
+		textureWindow -e -checkerDensity 2 $texWinName[0];
+		print "Checker map set to 2";
+	}
+
+	if ($checkerDensityDown <= 2)
+	{
+		textureWindow -e -checkerDensity 1 $texWinName[0];
+		print "Checker map set to 1";
+	}
+}
+
+
+//***********************************************************************************************************************************************************
+//Planar map camera
+global proc m341_unWrapper_planarMapCamera()
+{  
+	//Exit 3D cut and sew
+	string $currentActiveTool = `currentCtx`;
+	if(`gmatch $currentActiveTool "*superCutUVContext*"`)
+	{
+		m341_unWrapper_Exit();
+	}
+	if(`gmatch $currentActiveTool "*PolyCutUVCtx*"`)
+	{
+		m341_unWrapper_Exit();
+	}
+
+	ConvertSelectionToFaces;
+	polyProjection -ch 0 -type Planar -ibd on -kir  -md c;
+   	toggleSelMode;
+	toggleSelMode;
+	selectMode -object;
+	DeleteHistory;
+	print "Planar map Camera applied, keep width/height ratio on";
+}
+
+
+//***********************************************************************************************************************************************************
+//Easy UVs
+global proc m341_unWrapper_EasyUVs()
+{
+	//Exit 3D cut and sew
+	string $currentActiveTool = `currentCtx`;
+	if(`gmatch $currentActiveTool "*superCutUVContext*"`)
+	{
+		m341_unWrapper_Exit();
+	}
+	if(`gmatch $currentActiveTool "*PolyCutUVCtx*"`)
+	{
+		m341_unWrapper_Exit();
+	}
+	
+	m341_unWrapper_angle_ValueChanged();
+	
+	toggleSelMode;
+	toggleSelMode;
+	selectMode -object;
+	$easyUVsSelectedOBJ = `ls -sl`;
+	string $easyUVsFinalSelect[] = `ls -sl`;
+	
+	//Clean up mesh
+	//Clean up holes, lamina, zero edges, zero geo face area, invalid components
+	polyCleanupArgList 4 { "0","1","0","0","0","0","1","0","1","1e-06","1","1e-05","0","1e-05","0","-1","1","1" };
+	//Clean up non-manifold geo only
+	polyCleanupArgList 4 { "0","1","0","0","0","0","0","0","0","1e-05","0","1e-05","0","1e-05","0","1","0","0" };
+	$easyUVsSelectedOBJ = `ls -sl`;
+
+	//Auto cut seams
+	int $autoCutSeams_UnWrapperCheckMarkValue = `checkBox -query -value unWrapper_autoCutSeams_CheckBoxName`;
+	
+	//Keep user cuts
+	global string $m341_userCutEdges[];
+	int $keepUserCuts_UnWrapperCheckMarkValue = `checkBox -query -value unWrapper_keepCurrentSeams_CheckBoxName`;
+	if ($keepUserCuts_UnWrapperCheckMarkValue == 1)
+	{
+		//Store user cut edges
+		ConvertSelectionToEdges;
+		SelectUVBorderComponents;
+		global string $m341_userCutEdges[];
+		$m341_userCutEdges = `ls -sl`;
+		select $easyUVsSelectedOBJ;
+	}
+
+	//UVs by angle
+	global string $m341_keepNormalsEdges[];
+	int $uvsByAngle_UnWrapperCheckMarkValue = `checkBox -query -value unWrapper_uvsByAngle_CheckBoxName`;
+	int $keepNormals_UnWrapperCheckMarkValue = `checkBox -query -value unWrapper_keepNormals_CheckBoxName`;
+	if ($uvsByAngle_UnWrapperCheckMarkValue == 1)
+	{
+		if ($keepNormals_UnWrapperCheckMarkValue == 1)
+		{
+			//Select hard edges and store them
+			select $easyUVsSelectedOBJ;
+			polySelectConstraint -m 3 -t 0x8000 -sm 1;
+			global string $m341_keepNormalsEdges[];
+			$m341_keepNormalsEdges = `ls -sl`;
+			resetPolySelectConstraint;
+			select $easyUVsSelectedOBJ;
+		}
+
+		//Soften all edges
+		polySoftEdge -a 180 -ch 0;
+	}
+	
+	//Automatic map
+	ConvertSelectionToFaces;
+	polyAutoProjection -lm 0 -pb 0 -ibd 1 -cm 0 -l 2 -sc 1 -o 1 -p 6 -ps 0.2 -ws 0;
+	
+	//UVs by angle
+	if ($uvsByAngle_UnWrapperCheckMarkValue == 1)
+	{
+		//Sew soft edges
+		polySelectConstraint -m 3 -t 0x8000 -sm 2;
+		resetPolySelectConstraint;
+		polyMapSewMove -nf 10 -lps 0 -ch 0;	
+	}
+	
+	//UVs by hard edges
+	int $uvsByHardEdges_UnWrapperCheckMarkValue = `checkBox -query -value unWrapper_uvsByHardEdges_CheckBoxName`;
+	if ($uvsByHardEdges_UnWrapperCheckMarkValue == 1)
+	{
+		//Sew soft edges
+		polySelectConstraint -m 3 -t 0x8000 -sm 2;
+		resetPolySelectConstraint;
+		polyMapSewMove -nf 10 -lps 0 -ch 0;	
+	}
+	
+	select $easyUVsSelectedOBJ;
+	DeleteHistory;
+	
+	//UVs by angle 
+	global int $m341_unWrapper_angle_UserInput;
+	if ($uvsByAngle_UnWrapperCheckMarkValue == 1)
+	{
+		//Soften UVs from user input
+		polySoftEdge -a $m341_unWrapper_angle_UserInput -ch 0;
+		//Select hard edges and cut UVs on them
+		polySelectConstraint -m 3 -t 0x8000 -sm 1;
+		resetPolySelectConstraint;
+		polyMapCut;
+		
+		//Cut using auto seams for cylinder shapes		
+		if ($autoCutSeams_UnWrapperCheckMarkValue == 1)
+		{
+			//Find cylinder angles so auto seam only cuts pipe shapes
+			select $easyUVsSelectedOBJ;
+			ConvertSelectionToEdges;
+			polySelectConstraint -mode 2 -type 0x8000 -smoothness 0 -angle true -anglebound 10 54;
+			resetPolySelectConstraint;
+			u3dAutoSeam -s 0 -p 1;
+		}
+		
+		//Bring back original normals
+		if ($keepNormals_UnWrapperCheckMarkValue == 1)
+		{
+			//Select original hard edges and make them hard again
+			select $easyUVsSelectedOBJ;
+			PolygonSoftenEdge;
+			global string $m341_keepNormalsEdges[];
+			select $m341_keepNormalsEdges;
+			PolygonHardenEdge;
+			select $easyUVsSelectedOBJ;
+		}
+	}
+	
+	//UVs by hard edges 
+	if ($uvsByHardEdges_UnWrapperCheckMarkValue == 1)
+	{
+		//Select hard edges and cut UVs on them
+		polySelectConstraint -m 3 -t 0x8000 -sm 1;
+		resetPolySelectConstraint;
+		polyMapCut;
+		
+		//Cut using auto seams for cylinder shapes		
+		if ($autoCutSeams_UnWrapperCheckMarkValue == 1)
+		{
+			//Find cylinder angles so auto seam only cuts pipe shapes
+			select $easyUVsSelectedOBJ;
+			ConvertSelectionToEdges;
+			polySelectConstraint -mode 2 -type 0x8000 -smoothness 0 -angle true -anglebound 10 54;
+			resetPolySelectConstraint;
+			u3dAutoSeam -s 0 -p 1;
+			//performPolyAutoSeamUV 0;
+		}
+	}
+	
+	//Keep user cuts
+	if ($keepUserCuts_UnWrapperCheckMarkValue == 1)
+	{
+		//Cut user cut edges from above
+		global string $m341_userCutEdges[];
+		select $m341_userCutEdges;
+		polyMapCut;
+	}
+		
+	//Run unwrap button
+	select $easyUVsSelectedOBJ;
+	m341_unWrapper_Unwrap();
+
+	select $easyUVsSelectedOBJ;
+	toggleSelMode;
+	toggleSelMode;
+	selectMode -object;
+	DeleteHistory;
+	
+	select $easyUVsFinalSelect;
+	
+	print "Easy UVs complete";
+}
+
+//***********************************************************************************************************************************************************
+//Change component select modes
+global proc componentMode2_Shells()
+{
+	changeSelectMode -component;
+	setComponentPickMask "Facet" true;
+	selectType -ocm -alc false;
+	selectType -msh true;	
+}
+
+global proc componentMode2_Faces()
+{
+	changeSelectMode -component;
+	setComponentPickMask "Facet" true;
+	selectType -ocm -alc false;
+	selectType -ocm -facet true;
+	selectType -sf false -se false -suv false -cv false;
+}
+
+global proc componentMode2_Verts()
+{
+	changeSelectMode -component;
+	setComponentPickMask "Point" true;
+	selectType -ocm -alc false;
+	selectType -ocm -vertex true;
+	selectType -sf false -se false -suv false -cv false;
+}
+
+global proc componentMode2_Edges()
+{
+	changeSelectMode -component;
+	selectType -isoparm 0 -surfaceEdge 1 -polymeshEdge 1 -subdivMeshEdge 1 -springComponent 1;
+	selectType -ocm -alc false;
+	selectType -ocm -edge true;
+	selectType -sf false -se false -suv false -cv false;
+}
+
+global proc componentMode2_UVs()
+{
+	changeSelectMode -component;
+	selectType -ocm -alc false;
+	selectType -alc false;
+	selectType -puv true;
+	selectType -suv true;
+}
+
+//***********************************************************************************************************************************************************
+//3d cut and sew tool
+global proc m341_unWrapper_3dCutAndSew()
+{
+	if ((size(`textureWindow -query -parent polyTexturePlacementPanel1`)) == 0)
+	{
+		print "Please open UV editor first";
+	}
+	
+	else  
+	{
+		toggleSelMode;
+		toggleSelMode;
+		selectMode -object;
+		SetCutSewUVTool;
+		string $maCurrentMayaYearUVFix = `about -product`;
+		if(`gmatch $maCurrentMayaYearUVFix "*202*"`)
+		{
+			//TURN ON CHECKERS 2020
+			if(`getModifiers`%2) performTextureViewCheckerMapOptions 1; else{ textureWindowDisplayCheckered(1,1); textureWindow -edit -checkerColorMode 0 polyTexturePlacementPanel1; performTextureViewCheckerMapOptions 0;}txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+			textureWindow -edit -checkerColorMode 0  -checkerColor1 0.8 0.8 0.8  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+			//TURN ON SHADED 2020
+			textureWindow -edit -solidMapPerShell 1 polyTexturePlacementPanel1; DisplayUVShaded;
+			//DIM IMAGE 2020
+			if(`getModifiers`%2) performTextureViewDimImageOptions 1; else{textureWindowImageDimming(1,1); performTextureViewDimImageOptions 0;} txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+			uvTbImageDimmingChangedCallback;
+			textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+			//TURN ON IMAGE 2020
+			$maCheckIfImageOn2020 = `textureWindow -q -imageDisplay polyTexturePlacementPanel1`;
+			if ($maCheckIfImageOn2020 == 0)
+			{
+				ToggleUVTextureImage;
+			}
+		}
+		if(`gmatch $maCurrentMayaYearUVFix "*2019*"`)
+		{
+			//TURN ON CHECKERS 2019
+			if(`getModifiers`%2) performTextureViewCheckerMapOptions 1; else{ textureWindowDisplayCheckered(1,1); textureWindow -edit -checkerColorMode 0 polyTexturePlacementPanel1; performTextureViewCheckerMapOptions 0;}txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+			textureWindow -edit -checkerColorMode 0  -checkerColor1 0.8 0.8 0.8  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+			//TURN ON SHADED 2019
+			textureWindow -edit -solidMapPerShell 1 polyTexturePlacementPanel1; DisplayUVShaded;
+			//DIM IMAGE 2019
+			if(`getModifiers`%2) performTextureViewDimImageOptions 1; else{textureWindowImageDimming(1,1); performTextureViewDimImageOptions 0;} txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+			uvTbImageDimmingChangedCallback;
+			textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+			//TURN ON IMAGE 2019
+			$maCheckIfImageOn2019 = `textureWindow -q -imageDisplay polyTexturePlacementPanel1`;
+			if ($maCheckIfImageOn2019 == 0)
+			{
+				ToggleUVTextureImage;
+			}
+		}
+		if(`gmatch $maCurrentMayaYearUVFix "*2018*"`)
+		{
+			//TURN ON CHECKER 2018
+			textureWindow -edit -solidMapPerShell 1 -displaySolidMap 1 polyTexturePlacementPanel1;
+			//TURN ON SHADED 2018
+			textureWindow -edit -displayCheckered 1 -checkerColorMode 0  -checkerColor1 1 1 1  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+			//DIM IMAGE 2018
+			textureWindow -e -imageDim 1 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+			textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+			//TURN ON IMAGE 2018
+			textureWindow -edit -imageDisplay 1 polyTexturePlacementPanel1;
+			string $texWinName[] = `getPanel -sty polyTexturePlacementPanel`;
+			txtWndUpdateEditor( $texWinName[0], "textureWindow", "null", 101 );
+		}
+		if(`gmatch $maCurrentMayaYearUVFix "*2017*"`)
+		{
+			//TURN ON CHECKER 2017
+			textureWindow -edit -displayCheckered 1 -checkerColorMode 0  -checkerColor1 1 1 1  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+			//TURN ON SHADED 2017
+			textureWindow -edit -solidMapPerShell 1 -displaySolidMap 1 polyTexturePlacementPanel1;
+			//DIM IMAGE 2017
+			textureWindow -e -imageDim 1 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+			textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+			//TURN ON IMAGE 2017
+			textureWindow -edit -imageDisplay 1 polyTexturePlacementPanel1;
+			string $texWinName[] = `getPanel -sty polyTexturePlacementPanel`;
+			txtWndUpdateEditor( $texWinName[0], "textureWindow", "null", 101 );
+		}
+		
+		global int $uvToggleChecker;
+		$uvToggleChecker = 1;
+		print "3D Cut and Sew Tool loaded, checker map on";
+	}
+}
+
+//***********************************************************************************************************************************************************
+//Exit
+global proc m341_unWrapper_Exit()
+{
+	if ((size(`textureWindow -query -parent polyTexturePlacementPanel1`)) == 0)
+	{
+		print "Please open UV editor first";
+	}
+	
+	else  
+	{  
+		setHUD3DCutSewUVActiveMesh( 0, "");
+		MoveTool;
+		toggleSelMode;
+		toggleSelMode;
+		selectMode -object;
+		DeleteHistory;
+		
+		global int $uvToggleChecker;
+		if ($uvToggleChecker == 1)
+		{
+			string $maCurrentMayaYearUVFix = `about -product`;
+			if(`gmatch $maCurrentMayaYearUVFix "*202*"`)
+			{
+				//TURN ON CHECKERS 2020
+				if(`getModifiers`%2) performTextureViewCheckerMapOptions 1; else{ textureWindowDisplayCheckered(1,1); textureWindow -edit -checkerColorMode 0 polyTexturePlacementPanel1; performTextureViewCheckerMapOptions 0;}txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+				textureWindow -edit -checkerColorMode 0  -checkerColor1 0.8 0.8 0.8  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+				//TURN ON SHADED 2020
+				textureWindow -edit -solidMapPerShell 1 polyTexturePlacementPanel1; DisplayUVShaded;
+				//DIM IMAGE 2020
+				if(`getModifiers`%2) performTextureViewDimImageOptions 1; else{textureWindowImageDimming(1,1); performTextureViewDimImageOptions 0;} txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+				uvTbImageDimmingChangedCallback;
+				textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+				//TURN ON IMAGE 2020
+				$maCheckIfImageOn2020 = `textureWindow -q -imageDisplay polyTexturePlacementPanel1`;
+				if ($maCheckIfImageOn2020 == 0)
+				{
+					ToggleUVTextureImage;
+				}
+			}		
+			if(`gmatch $maCurrentMayaYearUVFix "*2019*"`)
+			{
+				//TURN ON CHECKERS 2019
+				if(`getModifiers`%2) performTextureViewCheckerMapOptions 1; else{ textureWindowDisplayCheckered(1,1); textureWindow -edit -checkerColorMode 0 polyTexturePlacementPanel1; performTextureViewCheckerMapOptions 0;}txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+				textureWindow -edit -checkerColorMode 0  -checkerColor1 0.8 0.8 0.8  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+				//TURN ON SHADED 2019
+				textureWindow -edit -solidMapPerShell 1 polyTexturePlacementPanel1; DisplayUVShaded;
+				//DIM IMAGE 2019
+				if(`getModifiers`%2) performTextureViewDimImageOptions 1; else{textureWindowImageDimming(1,1); performTextureViewDimImageOptions 0;} txtWndUpdateEditor("polyTexturePlacementPanel1", "textureWindow", "null", 101);
+				uvTbImageDimmingChangedCallback;
+				textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+				//TURN ON IMAGE 2019
+				$maCheckIfImageOn2019 = `textureWindow -q -imageDisplay polyTexturePlacementPanel1`;
+				if ($maCheckIfImageOn2019 == 0)
+				{
+					ToggleUVTextureImage;
+				}
+			}
+			if(`gmatch $maCurrentMayaYearUVFix "*2018*"`)
+			{
+				//TURN ON CHECKER 2018
+				textureWindow -edit -solidMapPerShell 1 -displaySolidMap 1 polyTexturePlacementPanel1;
+				//TURN ON SHADED 2018
+				textureWindow -edit -displayCheckered 1 -checkerColorMode 0  -checkerColor1 1 1 1  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+				//DIM IMAGE 2018
+				textureWindow -e -imageDim 1 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+				textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+				//TURN ON IMAGE 2018
+				textureWindow -edit -imageDisplay 1 polyTexturePlacementPanel1;
+				string $texWinName[] = `getPanel -sty polyTexturePlacementPanel`;
+				txtWndUpdateEditor( $texWinName[0], "textureWindow", "null", 101 );
+			}
+			if(`gmatch $maCurrentMayaYearUVFix "*2017*"`)
+			{
+				//TURN ON CHECKER 2017
+				textureWindow -edit -displayCheckered 1 -checkerColorMode 0  -checkerColor1 1 1 1  -checkerColor2 0 0 0  -cgo 1  -checkerGradient1 1 1 1  -checkerGradient2 0 0 0 -checkerDrawTileLabels 1 polyTexturePlacementPanel1;
+				//TURN ON SHADED 2017
+				textureWindow -edit -solidMapPerShell 1 -displaySolidMap 1 polyTexturePlacementPanel1;
+				//DIM IMAGE 2017
+				textureWindow -e -imageDim 1 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+				textureWindow -edit -ibc 0.4 0.4 0.4 polyTexturePlacementPanel1;
+				//TURN ON IMAGE 2017
+				textureWindow -edit -imageDisplay 1 polyTexturePlacementPanel1;
+				string $texWinName[] = `getPanel -sty polyTexturePlacementPanel`;
+				txtWndUpdateEditor( $texWinName[0], "textureWindow", "null", 101 );
+			}
+		}
+	
+		else if ($uvToggleChecker == 0)
+		{
+			string $maCurrentMayaYearUVFix2 = `about -product`;
+			if(`gmatch $maCurrentMayaYearUVFix2 "*202*"`)
+			{
+				//TURN OFF CHECKER 2020
+				textureWindowDisplayCheckered(1,0);
+				//TURN OFF SHADED 2020
+				DisplayUVWireframe;
+				//TURN OFF DIM IMAGE 2020
+				textureWindow -e -imageDim 0 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+				textureWindow -edit -ibc 0.5 0.5 0.5 polyTexturePlacementPanel1;
+			}
+			if(`gmatch $maCurrentMayaYearUVFix2 "*2019*"`)
+			{
+				//TURN OFF CHECKER 2019
+				textureWindowDisplayCheckered(1,0);
+				//TURN OFF SHADED 2019
+				DisplayUVWireframe;
+				//TURN OFF DIM IMAGE 2019
+				textureWindow -e -imageDim 0 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+				textureWindow -edit -ibc 0.5 0.5 0.5 polyTexturePlacementPanel1;
+			}
+			if(`gmatch $maCurrentMayaYearUVFix2 "*2018*"`)
+			{
+				//TURN OFF CHECKER 2018
+				textureWindow -edit -solidMapPerShell 0 -displaySolidMap 0 polyTexturePlacementPanel1;
+				//TURN OFF SHADED 2018
+				textureWindow -edit -displayCheckered 0 -checkerColorMode 0 polyTexturePlacementPanel1;
+				//TURN OFF DIM IMAGE 2018
+				textureWindow -e -imageDim 0 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+				textureWindow -edit -ibc 0.5 0.5 0.5 polyTexturePlacementPanel1;
+			}
+			if(`gmatch $maCurrentMayaYearUVFix2 "*2017*"`)
+			{	
+				//TURN OFF CHECKER 2017
+				textureWindow -edit -displayCheckered 0 -checkerColorMode 0 polyTexturePlacementPanel1;
+				//TURN OFF SHADED 2017
+				textureWindow -edit -solidMapPerShell 0 -displaySolidMap 0 polyTexturePlacementPanel1;
+				//TURN OFF DIM IMAGE 2017
+				textureWindow -e -imageDim 0 polyTexturePlacementPanel1; performTextureViewDimImageOptions 0;
+				textureWindow -edit -ibc 0.5 0.5 0.5 polyTexturePlacementPanel1;
+			}
+		}
+	
+		print "3D Cut and Sew Tool exited";
+	}
+}
+
+//***********************************************************************************************************************************************************
+//Unwrap
+global proc m341_unWrapper_Unwrap()
+{  
+	//Check boxes
+	int $unfoldUnWrapperCheckMarkValue = `checkBox -query -value unWrapper_unfold_CheckBoxName`;
+	int $curvedUnWrapper_CheckMarkValue = `checkBox -query -value unWrapper_curved_CheckBoxName`;
+	int $unWrapper_Spin_CheckBoxValue = `checkBox -query -value unWrapper_spin_CheckBoxName`;
+	int $unWrapper_Scale_CheckBoxValue = `checkBox -query -value unWrapper_scale_CheckBoxName`;
+	int $unWrapper_all_CheckBoxValue = `checkBox -query -value unWrapper_all_CheckBoxName`;
+	
+	//Spacing arrays
+	int $unWrapperSpacerIndex = `optionMenu -query -select unWrapperUVSpacer`;
+	int $unWrapperBorderIndex = `optionMenu -query -select unWrapperUVSpacer`;
+	int $unWrapperMapSizeIndex = `optionMenu -query -select unWrapperMapSize`;
+	
+	global float $m341_unWrapperSpacingArray[];
+	global float $m341_unWrapperBorderArray[];
+	
+	//Exit 3D cut and sew to fix unwrap bug
+	string $currentActiveTool = `currentCtx`;
+	global int $m341_unWrapper_CutSewSwitch;
+	$m341_unWrapper_CutSewSwitch = 0;
+	if(`gmatch $currentActiveTool "*superCutUVContext*"`)
+	{
+		setHUD3DCutSewUVActiveMesh( 0, "");
+		MoveTool;
+		toggleSelMode;
+		toggleSelMode;
+		selectMode -object;
+		DeleteHistory;
+		global int $m341_unWrapper_CutSewSwitch;
+		$m341_unWrapper_CutSewSwitch = 1;
+	}
+	if(`gmatch $currentActiveTool "*PolyCutUVCtx*"`)
+	{
+		setHUD3DCutSewUVActiveMesh( 0, "");
+		MoveTool;
+		toggleSelMode;
+		toggleSelMode;
+		selectMode -object;
+		DeleteHistory;
+		global int $m341_unWrapper_CutSewSwitch;
+		$m341_unWrapper_CutSewSwitch = 1;
+	}	
+	
+
+	
+	//If transform selected convert to UVs first
+	string $xformSelected[] = `ls -sl -exactType transform`;
+	int $sizeXformSelected = `size $xformSelected`;
+	if ($sizeXformSelected > 0)
+	{
+		ConvertSelectionToUVs;
+		//Change select mode to UV mask
+		SelectUVMask;
+	}
+	
+	//Query what component mode the user is in
+	$component_Face = `selectType -q -facet`;
+	$component_Shell = `selectType -q -meshUVShell`;
+	$component_Vert = `selectType -q -vertex`;
+	$component_Edge = `selectType -q -edge`;
+	$component_UV = `selectType -q -polymeshUV`;
+	$component_Multi = `selectType -q -meshComponents`;
+	
+	//Store user selected components
+	string $components[] = `ls -sl`;
+	
+	
+	//Update shell spacing values based on what map size is chosen below in UI
+	//Map size 4096
+	if ($unWrapperMapSizeIndex == 1)
+	{
+		//UV spacing
+		global float $m341_unWrapperSpacingArray[];
+		$m341_unWrapperSpacingArray = {0.0078125, 0.00634765625, 0.0048828125, 0.00390625, 0.0029296875, 0.00244140625, 0.001953125, 0.0009765625};
+		//Border spacing
+		global float $m341_unWrapperBorderArray[];
+		$m341_unWrapperBorderArray = {0.00390625, 0.003173828125, 0.00244140625, 0.001953125, 0.00146484375, 0.001220703125, 0.0009765625, 0.00048828125};
+	}
+	//Map size 2048
+	if ($unWrapperMapSizeIndex == 2)
+	{
+		//UV spacing
+		global float $m341_unWrapperSpacingArray[];
+		$m341_unWrapperSpacingArray = {0.015625, 0.0126953125, 0.009765625, 0.0078125, 0.005859375, 0.0048828125, 0.00390625, 0.001953125};
+		//Border spacing
+		global float $m341_unWrapperBorderArray[];
+		$m341_unWrapperBorderArray = {0.0078125, 0.00634765625, 0.0048828125, 0.00390625, 0.0029296875, 0.00244140625, 0.001953125, 0.0009765625};
+	}
+	//Map size 1024
+	if ($unWrapperMapSizeIndex == 3)
+	{
+		//UV spacing
+		global float $m341_unWrapperSpacingArray[];
+		$m341_unWrapperSpacingArray = {0.03125, 0.025390625, 0.01953125, 0.015625, 0.01171875, 0.009765625, 0.0078125, 0.00390625};
+		//Border spacing
+		global float $m341_unWrapperBorderArray[];
+		$m341_unWrapperBorderArray = {0.015625, 0.0126953125, 0.009765625, 0.0078125, 0.005859375, 0.0048828125, 0.00390625, 0.001953125};
+	}
+	//Map size 512
+	if ($unWrapperMapSizeIndex == 4)
+	{
+		//UV spacing
+		global float $m341_unWrapperSpacingArray[];
+		$m341_unWrapperSpacingArray = {0.0625, 0.05078125, 0.0390625, 0.03125, 0.0234375, 0.01953125, 0.015625, 0.0078125};
+		//Border spacing
+		global float $m341_unWrapperBorderArray[];
+		$m341_unWrapperBorderArray = {0.03125, 0.025390625, 0.01953125, 0.015625, 0.01171875, 0.009765625, 0.0078125, 0.00390625};
+	}
+	//Map size 256
+	if ($unWrapperMapSizeIndex == 5)
+	{
+		//UV spacing
+		global float $m341_unWrapperSpacingArray[];
+		$m341_unWrapperSpacingArray = {0.125, 0.1015625, 0.078125, 0.0625, 0.046875, 0.0390625, 0.03125, 0.015625};
+		//Border spacing
+		global float $m341_unWrapperBorderArray[];
+		$m341_unWrapperBorderArray = {0.0625, 0.05078125, 0.0390625, 0.03125, 0.0234375, 0.01953125, 0.015625, 0.0078125};
+	}
+	//Map size 128
+	if ($unWrapperMapSizeIndex == 6)
+	{
+		//UV spacing
+		global float $m341_unWrapperSpacingArray[];
+		$m341_unWrapperSpacingArray = {0.25, 0.203125, 0.15625, 0.125, 0.09375, 0.078125, 0.0625, 0.03125};
+		//Border spacing
+		global float $m341_unWrapperBorderArray[];
+		$m341_unWrapperBorderArray = {0.125, 0.1015625, 0.078125, 0.0625, 0.046875, 0.0390625, 0.03125, 0.015625};
+	}
+	//Map size 64
+	if ($unWrapperMapSizeIndex == 7)
+	{
+		//UV spacing
+		global float $m341_unWrapperSpacingArray[];
+		$m341_unWrapperSpacingArray = {0.5, 0.40625, 0.3125, 0.25, 0.1875, 0.15625, 0.125, 0.0625};
+		//Border spacing
+		global float $m341_unWrapperBorderArray[];
+		$m341_unWrapperBorderArray = {0.25, 0.203125, 0.15625, 0.125, 0.09375, 0.078125, 0.0625, 0.03125};
+	}
+	//Map size 32
+	if ($unWrapperMapSizeIndex == 8)
+	{
+		//UV spacing
+		global float $m341_unWrapperSpacingArray[];
+		$m341_unWrapperSpacingArray = {0.5, 0.5, 0.625, 0.5, 0.375, 0.3125, 0.25, 0.125};
+		//Border spacing
+		global float $m341_unWrapperBorderArray[];
+		$m341_unWrapperBorderArray = {0.25, 0.40625, 0.3125, 0.25, 0.1875, 0.15625, 0.125, 0.0625};
+	}
+	
+	
+	//Clean up mesh
+	toggleSelMode;
+	toggleSelMode;
+	selectMode -object;
+	$cleanUpObject = `ls -sl`;
+	//Clean up holes, lamina, zero edges, zero geo face area, invalid components
+	polyCleanupArgList 4 { "0","1","0","0","0","0","1","0","1","1e-06","1","1e-05","0","1e-05","0","-1","1","1" };
+	//Clean up non-manifold geo only
+	polyCleanupArgList 4 { "0","1","0","0","0","0","0","0","0","1e-05","0","1e-05","0","1e-05","0","1","0","0" };
+	select $cleanUpObject;
+
+	toggleSelMode;
+	toggleSelMode;
+	selectMode -object;
+	SelectMeshUVShell;
+	SelectAll;
+	
+	//Select only some UVs if all checkbox
+	if ($unWrapper_all_CheckBoxValue == 0)
+	{
+		select $components;
+	}
+	
+	//Select all UVs always if 3d cut and sew tool is active
+	//string $currentActiveTool = `currentCtx`;
+	if(`gmatch $currentActiveTool "*superCutUVContext*"`)
+	{
+		toggleSelMode;
+		toggleSelMode;
+		selectMode -object;
+		SelectMeshUVShell;
+		SelectAll;
+	}
+	if(`gmatch $currentActiveTool "*PolyCutUVCtx*"`)
+	{
+		toggleSelMode;
+		toggleSelMode;
+		selectMode -object;
+		SelectMeshUVShell;
+		SelectAll;
+	}	
+	
+	
+	//Unfold
+	if ($unfoldUnWrapperCheckMarkValue == 1)
+	{
+		u3dUnfold -ite 1 -p 0 -bi 1 -tf 1 -ms 2048 -rs 8;
+		
+		//Curved checkbox off tries to keep shells straight while unfolding
+		if ($curvedUnWrapper_CheckMarkValue == 0)
+		{
+			unfold -i 5000 -ss 0.001 -gb 0 -gmb 0.5 -pub 0 -ps  0 -oa  0 -us off;
+		}
+	}
+	
+	//Spin UV shells
+	if ($unWrapper_Spin_CheckBoxValue == 1)
+	{
+		texOrientShells;
+	}
+	
+	//Scale UV shells
+	global int $m341_unWrapper_scaleShells;
+	$m341_unWrapper_scaleShells = 0;
+	if ($unWrapper_Scale_CheckBoxValue == 1)
+	{
+		global int $m341_unWrapper_scaleShells;
+		$m341_unWrapper_scaleShells = 1;
+	}
+	
+	u3dLayout -res 512 -scl $m341_unWrapper_scaleShells -spc $m341_unWrapperSpacingArray[$unWrapperSpacerIndex -1] -mar $m341_unWrapperBorderArray[$unWrapperBorderIndex -1] -box 0 1 0 1;
+	toggleSelMode;
+	toggleSelMode;
+	selectMode -object;
+	DeleteHistory;
+	
+	//Bring back original component mode user was in
+	if ($component_Face > 0)
+	{
+		SelectFacetMask;
+	}
+	
+	if ($component_Shell > 0)
+	{
+		SelectMeshUVShell;
+	}
+		
+	if ($component_Vert > 0)
+	{
+		SelectVertexMask;
+	}
+	
+	if ($component_Edge > 0)
+	{
+		SelectEdgeMask;
+	}
+	
+	if ($component_UV > 0)
+	{
+		SelectUVMask;
+	}
+	if ($component_Multi > 0)
+	{
+		SelectUVMask;
+	}
+	
+
+	select $components;
+	
+	//Enter 3D cut and sew if it was active above
+	global int $m341_unWrapper_CutSewSwitch;
+	if ($m341_unWrapper_CutSewSwitch == 1)
+	{
+		//m341_unWrapper_3dCutAndSew();
+		SetCutSewUVTool;
+		SelectNone;
+	}
+	
+	global string $m341_unWrapper_PrintUnfold;
+	$m341_unWrapper_PrintUnfold = "";
+	if ($unfoldUnWrapperCheckMarkValue == 1)
+	{
+		global string $m341_unWrapper_PrintUnfold;
+		$m341_unWrapper_PrintUnfold = "unfold, ";
+	}
+	
+	global string $m341_unWrapper_PrintCurved;
+	$m341_unWrapper_PrintCurved = "";
+	if ($curvedUnWrapper_CheckMarkValue == 1 && $unfoldUnWrapperCheckMarkValue == 1)
+	{
+		global string $m341_unWrapper_PrintCurved;
+		$m341_unWrapper_PrintCurved = "curved shape, ";
+	}
+	
+	global string $m341_unWrapper_PrintSpin;
+	$m341_unWrapper_PrintSpin = "";
+	if ($unWrapper_Spin_CheckBoxValue == 1)
+	{
+		global string $m341_unWrapper_PrintSpin;
+		$m341_unWrapper_PrintSpin = "rotate, ";
+	}
+	
+	global string $m341_unWrapper_PrintScale;
+	$m341_unWrapper_PrintScale = "";
+	if ($unWrapper_Scale_CheckBoxValue == 1)
+	{
+		global string $m341_unWrapper_PrintScale;
+		$m341_unWrapper_PrintScale = "scale, ";
+	}
+	
+	global string $m341_unWrapper_PrintAll;
+	$m341_unWrapper_PrintAll = "selected UVs, ";
+	if ($unWrapper_all_CheckBoxValue == 1)
+	{
+		global string $m341_unWrapper_PrintAll;
+		$m341_unWrapper_PrintAll = "all UVs, ";
+	}
+	
+	print ($m341_unWrapper_PrintUnfold + $m341_unWrapper_PrintCurved + $m341_unWrapper_PrintSpin + $m341_unWrapper_PrintScale + $m341_unWrapper_PrintAll + "LAYOUT COMPLETE");
+	//print "Unfold, curved shape, rotate, scale, all UVs, layout complete";
+}
+
+//*******************************************************************************************************
+//Update angle int field Value
+global proc m341_unWrapper_angle_ValueChanged()
+{
+	//Query the value from the float field and store it in a variable
+	global int $m341_unWrapper_angle_UserInput;
+	$m341_unWrapper_angle_UserInput = `intField -query -value unwrapper_angle_IntFieldName`;
+	optionVar -intValue "m341_unWrapper_angleIntField_VarName" $m341_unWrapper_angle_UserInput;
+	//Print value
+	print("UVs angle set to " + $m341_unWrapper_angle_UserInput + "\n");
+}
+
+//*******************************************************************************************************
+//Update UVs by angle Checkbox Value
+global proc m341_unWrapper_uvsByAngle_ValueChanged()
+{
+	//Query the value of the checkbox and store in variable
+	global int $m341_unWrapper_uvsByAngle_UserInput;
+	$m341_unWrapper_uvsByAngle_UserInput = `checkBox -q -value unWrapper_uvsByAngle_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_uvsByAngleCheckBox_VarName" $m341_unWrapper_uvsByAngle_UserInput;
+	//Print value
+	if ($m341_unWrapper_uvsByAngle_UserInput == 0)
+	{
+		print "UVs by angle checkbox off";
+	}
+	else
+	{
+		print "UVs by angle checkbox on";
+	}
+}
+
+//*******************************************************************************************************
+//Update angle int field Value
+global proc m341_unWrapper_angle_ValueChanged()
+{
+	//Query the value from the float field and store it in a variable
+	global int $m341_unWrapper_angle_UserInput;
+	$m341_unWrapper_angle_UserInput = `intField -query -value unwrapper_angle_IntFieldName`;
+	optionVar -intValue "m341_unWrapper_angleIntField_VarName" $m341_unWrapper_angle_UserInput;
+	//Print value
+	print("UVs angle set to " + $m341_unWrapper_angle_UserInput + "\n");
+}
+
+//*******************************************************************************************************
+//Update UVs by hard edges Checkbox Value
+global proc m341_unWrapper_uvsByHardEdges_ValueChanged()
+{
+	//Query the value of the checkbox and store in variable
+	global int $m341_unWrapper_uvsByHardEdges_userInput;
+	$m341_unWrapper_uvsByHardEdges_userInput = `checkBox -q -value unWrapper_uvsByHardEdges_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_uvsByHardEdgesCheckBox_VarName" $m341_unWrapper_uvsByHardEdges_userInput;
+	//Print value
+	if ($m341_unWrapper_uvsByHardEdges_userInput == 0)
+	{
+		print "UVs by hard edges checkbox off";
+	}
+	else
+	{
+		print "UVs by hard edges checkbox on";
+	}
+}
+
+//*******************************************************************************************************
+//Update auto cut seams Checkbox Value
+global proc m341_unWrapper_autoCutSeams_ValueChanged()
+{
+	//Query the value of the checkbox and store in variable
+	global int $m341_unWrapper_autoCutSeams_userInput;
+	$m341_unWrapper_autoCutSeams_userInput = `checkBox -q -value unWrapper_autoCutSeams_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_autoCutSeamsCheckBox_VarName" $m341_unWrapper_autoCutSeams_userInput;
+	//Print value
+	if ($m341_unWrapper_autoCutSeams_userInput == 0)
+	{
+		print "Auto cut seams checkbox off";
+	}
+	else
+	{
+		print "Auto cut seams checkbox on";
+	}
+}
+
+//*******************************************************************************************************
+//Update keep normals Checkbox Value
+global proc m341_unWrapper_keepNormals_ValueChanged()
+{
+	//Query the value of the checkbox and store in variable
+	global int $m341_unWrapper_keepNormals_userInput;
+	$m341_unWrapper_keepNormals_userInput = `checkBox -q -value unWrapper_keepNormals_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_keepNormalsCheckBox_VarName" $m341_unWrapper_keepNormals_userInput;
+	//Print value
+	if ($m341_unWrapper_keepNormals_userInput == 0)
+	{
+		print "Keep normals checkbox off";
+	}
+	else
+	{
+		print "Keep normals checkbox on";
+	}
+}
+
+//*******************************************************************************************************
+//Update keep current seams Checkbox Value
+global proc m341_unWrapper_keepCurrentSeams_ValueChanged()
+{
+	//Query the value of the checkbox and store in variable
+	global int $m341_unWrapper_keepCurrentSeams_userInput;
+	$m341_unWrapper_keepCurrentSeams_userInput = `checkBox -q -value unWrapper_keepCurrentSeams_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_keepCurrentSeamsCheckBox_VarName" $m341_unWrapper_keepCurrentSeams_userInput;
+	//Print value
+	if ($m341_unWrapper_keepCurrentSeams_userInput == 0)
+	{
+		print "Keep current seams checkbox off";
+	}
+	else
+	{
+		print "Keep current seams checkbox on";
+	}
+}
+
+//*******************************************************************************************************
+//Update unfold Checkbox Value
+global proc m341_unWrapper_unfold_ValueChanged()
+{
+	//Query the value of the checkbox and store in variable
+	global int $m341_unWrapper_unfold_userInput;
+	$m341_unWrapper_unfold_userInput = `checkBox -q -value unWrapper_unfold_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_unfoldCheckBox_VarName" $m341_unWrapper_unfold_userInput;
+	//Print value
+	if ($m341_unWrapper_unfold_userInput == 0)
+	{
+		print "Unfold checkbox off";
+	}
+	else
+	{
+		print "Unfold checkbox on";
+	}
+}
+
+//*******************************************************************************************************
+//Update curved Checkbox Value
+global proc m341_unWrapper_curved_ValueChanged()
+{
+	//Query the value of the checkbox and store in variable
+	global int $m341_unWrapper_curved_userInput;
+	$m341_unWrapper_curved_userInput = `checkBox -q -value unWrapper_curved_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_curvedCheckBox_VarName" $m341_unWrapper_curved_userInput;
+	//Print value
+	if ($m341_unWrapper_curved_userInput == 0)
+	{
+		print "Curved checkbox off";
+	}
+	else
+	{
+		print "Curved checkbox on";
+	}
+}
+
+//*******************************************************************************************************
+//Update spin Checkbox Value
+global proc m341_unWrapper_spin_ValueChanged()
+{
+	//Query the value of the checkbox and store in variable
+	global int $m341_unWrapper_spin_userInput;
+	$m341_unWrapper_spin_userInput = `checkBox -q -value unWrapper_spin_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_spinCheckBox_VarName" $m341_unWrapper_spin_userInput;
+	//Print value
+	if ($m341_unWrapper_spin_userInput == 0)
+	{
+		print "Spin checkbox off";
+	}
+	else
+	{
+		print "Spin checkbox on";
+	}
+}
+
+//*******************************************************************************************************
+//Update scale Checkbox Value
+global proc m341_unWrapper_scale_ValueChanged()
+{
+	//Query the value of the checkbox and store in variable
+	global int $m341_unWrapper_scale_userInput;
+	$m341_unWrapper_scale_userInput = `checkBox -q -value unWrapper_scale_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_scaleCheckBox_VarName" $m341_unWrapper_scale_userInput;
+	//Print value
+	if ($m341_unWrapper_scale_userInput == 0)
+	{
+		print "Scale checkbox off";
+	}
+	else
+	{
+		print "Scale checkbox on";
+	}
+}
+
+//*******************************************************************************************************
+//Update All Checkbox Value
+global proc m341_unWrapper_all_ValueChanged()
+{
+	//Query the value of the checkbox and store in variable
+	global int $m341_unWrapper_all_userInput;
+	$m341_unWrapper_all_userInput = `checkBox -q -value unWrapper_all_CheckBoxName`;
+	optionVar -intValue "m341_unWrapper_allCheckBox_VarName" $m341_unWrapper_all_userInput;
+	//Print value
+	if ($m341_unWrapper_all_userInput == 0)
+	{
+		print "All checkbox off";
+	}
+	else
+	{
+		print "All checkbox on";
+	}
+}
+
+
+
+
+//***********************************************************************************************************************************************************
+//Window and Buttons
+global proc m341_launch_UnwrapperInterface()
+{
+	global string $m341_unWrapperVersion;
+
+	//Switch to load with texture editor or not
+	int $textureEditor = 1;
+	
+	if ($textureEditor == 1)
+	{
+		//Yes texture editor
+		TextureViewWindow;
+		window -parent "polyTexturePlacementPanel1Window" -title $m341_unWrapperVersion -toolbox true -sizeable true -resizeToFitChildren true unWrapper_windowName;	
+	}
+	
+	else
+	{
+		//No texture editor
+		window -title $m341_unWrapperVersion -toolbox true -sizeable true -resizeToFitChildren true unWrapper_windowName;
+	}
+	
+	columnLayout -adjustableColumn true;
+	text -label "by johann9616";
+	
+	setParent ..;
+	rowColumnLayout -numberOfRows 1;
+	iconTextButton -style "textOnly"
+		-labelOffset 30
+		-label "click for help"
+		-backgroundColor 0.51 0.51 0.51
+		-width 83
+		-height 15
+		-command "helpmaUnwrapper;";
+		separator -width 1 -style "none";
+		
+	iconTextButton -style "textOnly"
+		-labelOffset 30
+		-label "reset"
+		-backgroundColor 0.51 0.51 0.51
+		-width 40
+		-height 15
+		-command "m341_unWrapper_Reset;";
+
+	setParent ..;		
+	rowColumnLayout -numberOfRows 1;
+	iconTextButton -style "textOnly"
+		-label "checker map"
+		-backgroundColor 0.427 0.643 0.643
+		-width 76
+		-command "button1unWrapper;"
+		-commandRepeatable 0;
+		separator -width 1 -style "none";
+		
+	iconTextButton -style "textOnly"
+		-label "+"
+		-backgroundColor 0.427 0.643 0.643
+		-width 23
+		-command "button2unWrapper;"
+		-commandRepeatable 0;
+		separator -width 1 -style "none";
+		
+	iconTextButton -style "textOnly"
+		-label "-"
+		-backgroundColor 0.427 0.643 0.643
+		-width 23
+		-command "button3unWrapper;"
+		-commandRepeatable 0;
+	
+	setParent ..;
+	rowColumnLayout -numberOfRows 1;
+	iconTextButton -style "textOnly"
+		-label "planar map camera"
+		-labelOffset 30
+		-backgroundColor 0.32 0.59 0.72
+		-width 124
+		-command "m341_unWrapper_planarMapCamera;"
+		-commandRepeatable 1;
+	
+	setParent ..;
+	rowColumnLayout -numberOfRows 1 -height 18;
+	//Save preferences UVs by angle checkbox
+	int $unWrapper_uvsByAngle_CheckBoxValue;
+	global int $m341_unWrapper_uvsByAngle_UserInput;
+	string $unWrapper_uvsByAngle_OptionVar = `optionVar -exists "m341_unWrapper_uvsByAngleCheckBox_VarName"`;
+	if ($unWrapper_uvsByAngle_OptionVar == 0)
+	{
+		//Set default value
+		optionVar -intValue "m341_unWrapper_uvsByAngleCheckBox_VarName" 1;
+		$unWrapper_uvsByAngle_CheckBoxValue = `optionVar -q "m341_unWrapper_uvsByAngleCheckBox_VarName"`;
+	}
+	else
+	{
+		//Query from prefs file
+		$unWrapper_uvsByAngle_CheckBoxValue = `optionVar -q "m341_unWrapper_uvsByAngleCheckBox_VarName"`;
+	}
+	
+	checkBox -label "" -value $unWrapper_uvsByAngle_CheckBoxValue -changeCommand "m341_unWrapper_uvsByAngle_ValueChanged();" unWrapper_uvsByAngle_CheckBoxName;		
+	text -label " UVs by angle ";
+	
+	//Save preferences angle int field
+	int $unWrapper_angle_intFieldValue;
+	global int $m341_unWrapper_angle_UserInput;
+	string $unWrapper_angle_OptionVar = `optionVar -exists "m341_unWrapper_angleIntField_VarName"`;
+	if ($unWrapper_angle_OptionVar == 0)
+	{
+		//Set default value
+		optionVar -intValue "m341_unWrapper_angleIntField_VarName" 30;
+		$unWrapper_angle_intFieldValue = `optionVar -q "m341_unWrapper_angleIntField_VarName"`;
+	}
+	else
+	{
+		//Query from prefs file
+		$unWrapper_angle_intFieldValue = `optionVar -q "m341_unWrapper_angleIntField_VarName"`;
+	}
+	
+	intField -value $unWrapper_angle_intFieldValue -minValue 0 -maxValue 180 -width 30 -height 17 -changeCommand "m341_unWrapper_angle_ValueChanged();" unwrapper_angle_IntFieldName;
+		
+	setParent ..;
+	rowColumnLayout -numberOfRows 1 -height 17;
+	//Save preferences UVs by hard edges checkbox
+	int $unWrapper_uvsByHardEdges_CheckBoxValue;
+	global int $m341_unWrapper_uvsByHardEdges_userInput;
+	string $unWrapper_uvsByHardEdges_OptionVar = `optionVar -exists "m341_unWrapper_uvsByHardEdgesCheckBox_VarName"`;
+	if ($unWrapper_uvsByHardEdges_OptionVar == 0)
+	{
+		//Set default value
+		optionVar -intValue "m341_unWrapper_uvsByHardEdgesCheckBox_VarName" 0;
+		$unWrapper_uvsByHardEdges_CheckBoxValue = `optionVar -q "m341_unWrapper_uvsByHardEdgesCheckBox_VarName"`;
+	}
+	else
+	{
+		//Query from prefs file
+		$unWrapper_uvsByHardEdges_CheckBoxValue = `optionVar -q "m341_unWrapper_uvsByHardEdgesCheckBox_VarName"`;
+	}
+	
+	checkBox -label "" -value $unWrapper_uvsByHardEdges_CheckBoxValue -changeCommand "m341_unWrapper_uvsByHardEdges_ValueChanged();" unWrapper_uvsByHardEdges_CheckBoxName;		
+	text -label " UVs by hard edges";
+	
+	
+	
+	setParent ..;
+	rowColumnLayout -numberOfRows 1 -height 17;
+	//Save preferences auto cut seams checkbox
+	int $unWrapper_autoCutSeams_CheckBoxValue;
+	global int $m341_unWrapper_autoCutSeams_userInput;
+	string $unWrapper_autoCutSeams_OptionVar = `optionVar -exists "m341_unWrapper_autoCutSeamsCheckBox_VarName"`;
+	if ($unWrapper_autoCutSeams_OptionVar == 0)
+	{
+		//Set default value
+		optionVar -intValue "m341_unWrapper_autoCutSeamsCheckBox_VarName" 1;
+		$unWrapper_autoCutSeams_CheckBoxValue = `optionVar -q "m341_unWrapper_autoCutSeamsCheckBox_VarName"`;
+	}
+	else
+	{
+		//Query from prefs file
+		$unWrapper_autoCutSeams_CheckBoxValue = `optionVar -q "m341_unWrapper_autoCutSeamsCheckBox_VarName"`;
+	}
+	checkBox -label "" -value $unWrapper_autoCutSeams_CheckBoxValue -changeCommand "m341_unWrapper_autoCutSeams_ValueChanged();" unWrapper_autoCutSeams_CheckBoxName;		
+	text -label " auto cut seams";
+	
+	setParent ..;
+	rowColumnLayout -numberOfRows 1 -height 17;
+	//Save preferences keep normals checkbox
+	int $unWrapper_keepNormals_CheckBoxValue;
+	global int $m341_unWrapper_keepNormals_userInput;
+	string $unWrapper_keepNormals_OptionVar = `optionVar -exists "m341_unWrapper_keepNormalsCheckBox_VarName"`;
+	if ($unWrapper_keepNormals_OptionVar == 0)
+	{
+		//Set default value
+		optionVar -intValue "m341_unWrapper_keepNormalsCheckBox_VarName" 0;
+		$unWrapper_keepNormals_CheckBoxValue = `optionVar -q "m341_unWrapper_keepNormalsCheckBox_VarName"`;
+	}
+	else
+	{
+		//Query from prefs file
+		$unWrapper_keepNormals_CheckBoxValue = `optionVar -q "m341_unWrapper_keepNormalsCheckBox_VarName"`;
+	}
+	
+	checkBox -label "" -value $unWrapper_keepNormals_CheckBoxValue -changeCommand "m341_unWrapper_keepNormals_ValueChanged();" unWrapper_keepNormals_CheckBoxName;		
+	text -label " keep normals";
+	
+	setParent ..;
+	rowColumnLayout -numberOfRows 1 -height 17;
+	
+	//Save preferences keep current seams checkbox
+	int $unWrapper_keepCurrentSeams_CheckBoxValue;
+	global int $m341_unWrapper_keepCurrentSeams_userInput;
+	string $unWrapper_keepCurrentSeams_OptionVar = `optionVar -exists "m341_unWrapper_keepCurrentSeamsCheckBox_VarName"`;
+	if ($unWrapper_keepCurrentSeams_OptionVar == 0)
+	{
+		//Set default value
+		optionVar -intValue "m341_unWrapper_keepCurrentSeamsCheckBox_VarName" 0;
+		$unWrapper_keepCurrentSeams_CheckBoxValue = `optionVar -q "m341_unWrapper_keepCurrentSeamsCheckBox_VarName"`;
+	}
+	else
+	{
+		//Query from prefs file
+		$unWrapper_keepCurrentSeams_CheckBoxValue = `optionVar -q "m341_unWrapper_keepCurrentSeamsCheckBox_VarName"`;
+	}
+	
+	checkBox -label "" -value $unWrapper_keepCurrentSeams_CheckBoxValue -changeCommand "m341_unWrapper_keepCurrentSeams_ValueChanged();" unWrapper_keepCurrentSeams_CheckBoxName;		
+	text -label " keep current seams";
+	
+	setParent ..;
+	rowColumnLayout -numberOfRows 1;
+	iconTextButton -style "textOnly"
+		-label "easy UVs"
+		-labelOffset 0
+		-backgroundColor 0.59 0.53 0.74
+		-width 124
+		-command "m341_unWrapper_EasyUVs;"
+		-commandRepeatable 1;
+
+	setParent ..;
+	rowColumnLayout -numberOfRows 1;
+	iconTextButton -style "textOnly"
+		-label "3d cut and sew"
+		-labelOffset 30
+		-backgroundColor 0.772 0.521 0.302
+		-width 91
+		-command "m341_unWrapper_3dCutAndSew;"
+		-commandRepeatable 0;
+		separator -width 1 -style "none";
+	
+	iconTextButton -style "textOnly"
+		-label "exit"
+		-backgroundColor 0.772 0.521 0.302
+		-width 32
+		-command "m341_unWrapper_Exit;"
+		-commandRepeatable 0;
+	
+
+	
+	setParent ..;
+	rowColumnLayout -numberOfRows 1 -height 17;
+
+	//Save preferences unfold checkbox
+	int $unWrapper_unfold_CheckBoxValue;
+	global int $m341_unWrapper_unfold_userInput;
+	string $unWrapper_unfold_OptionVar = `optionVar -exists "m341_unWrapper_unfoldCheckBox_VarName"`;
+	if ($unWrapper_unfold_OptionVar == 0)
+	{
+		//Set default value
+		optionVar -intValue "m341_unWrapper_unfoldCheckBox_VarName" 1;
+		$unWrapper_unfold_CheckBoxValue = `optionVar -q "m341_unWrapper_unfoldCheckBox_VarName"`;
+	}
+	else
+	{
+		//Query from prefs file
+		$unWrapper_unfold_CheckBoxValue = `optionVar -q "m341_unWrapper_unfoldCheckBox_VarName"`;
+	}
+	
+	checkBox -label "" -value $unWrapper_unfold_CheckBoxValue -changeCommand "m341_unWrapper_unfold_ValueChanged();" unWrapper_unfold_CheckBoxName;		
+	text -label " unfold   ";
+
+	//Save preferences curved checkbox
+	int $unWrapper_curved_CheckBoxValue;
+	global int $m341_unWrapper_curved_userInput;
+	string $unWrapper_curved_OptionVar = `optionVar -exists "m341_unWrapper_curvedCheckBox_VarName"`;
+	if ($unWrapper_curved_OptionVar == 0)
+	{
+		//Set default value
+		optionVar -intValue "m341_unWrapper_curvedCheckBox_VarName" 1;
+		$unWrapper_curved_CheckBoxValue = `optionVar -q "m341_unWrapper_curvedCheckBox_VarName"`;
+	}
+	else
+	{
+		//Query from prefs file
+		$unWrapper_curved_CheckBoxValue = `optionVar -q "m341_unWrapper_curvedCheckBox_VarName"`;
+	}
+	
+	checkBox -label "" -value $unWrapper_curved_CheckBoxValue -changeCommand "m341_unWrapper_curved_ValueChanged();" unWrapper_curved_CheckBoxName;		
+	text -label " curved";
+		
+	setParent ..;
+	rowColumnLayout -numberOfRows 1 -height 17;
+
+	//Save preferences spin checkbox
+	int $unWrapper_spin_CheckBoxValue;
+	global int $m341_unWrapper_spin_userInput;
+	string $unWrapper_spin_OptionVar = `optionVar -exists "m341_unWrapper_spinCheckBox_VarName"`;
+	if ($unWrapper_spin_OptionVar == 0)
+	{
+		//Set default value
+		optionVar -intValue "m341_unWrapper_spinCheckBox_VarName" 1;
+		$unWrapper_spin_CheckBoxValue = `optionVar -q "m341_unWrapper_spinCheckBox_VarName"`;
+	}
+	else
+	{
+		//Query from prefs file
+		$unWrapper_spin_CheckBoxValue = `optionVar -q "m341_unWrapper_spinCheckBox_VarName"`;
+	}
+	
+	checkBox -label "" -value $unWrapper_spin_CheckBoxValue -changeCommand "m341_unWrapper_spin_ValueChanged();" unWrapper_spin_CheckBoxName;		
+	text -label " spin  ";
+
+	//Save preferences scale checkbox
+	int $unWrapper_scale_CheckBoxValue;
+	global int $m341_unWrapper_scale_userInput;
+	string $unWrapper_scale_OptionVar = `optionVar -exists "m341_unWrapper_scaleCheckBox_VarName"`;
+	if ($unWrapper_scale_OptionVar == 0)
+	{
+		//Set default value
+		optionVar -intValue "m341_unWrapper_scaleCheckBox_VarName" 1;
+		$unWrapper_scale_CheckBoxValue = `optionVar -q "m341_unWrapper_scaleCheckBox_VarName"`;
+	}
+	else
+	{
+		//Query from prefs file
+		$unWrapper_scale_CheckBoxValue = `optionVar -q "m341_unWrapper_scaleCheckBox_VarName"`;
+	}
+	
+	checkBox -label "" -value $unWrapper_scale_CheckBoxValue -changeCommand "m341_unWrapper_scale_ValueChanged();" unWrapper_scale_CheckBoxName;		
+	text -label " scale  ";
+
+
+	//Save preferences all checkbox
+	int $unWrapper_all_CheckBoxValue;
+	global int $m341_unWrapper_all_userInput;
+	string $unWrapper_all_OptionVar = `optionVar -exists "m341_unWrapper_allCheckBox_VarName"`;
+	if ($unWrapper_all_OptionVar == 0)
+	{
+		//Set default value
+		optionVar -intValue "m341_unWrapper_allCheckBox_VarName" 1;
+		$unWrapper_all_CheckBoxValue = `optionVar -q "m341_unWrapper_allCheckBox_VarName"`;
+	}
+	else
+	{
+		//Query from prefs file
+		$unWrapper_all_CheckBoxValue = `optionVar -q "m341_unWrapper_allCheckBox_VarName"`;
+	}
+	
+	checkBox -label "" -value $unWrapper_all_CheckBoxValue -changeCommand "m341_unWrapper_all_ValueChanged();" unWrapper_all_CheckBoxName;		
+	text -label " all";
+	
+	setParent ..;
+	rowLayout -numberOfColumns 2 -columnAttach2 "left" "left" -columnOffset2 5 0 -columnWidth 1 67 -columnWidth 2 30;
+		optionMenu -w 118 -label "map size" -height 17 unWrapperMapSize;
+		menuItem -label "4096";
+		menuItem -label "2048";
+		menuItem -label "1024";
+		menuItem -label "512";
+		menuItem -label "256";
+		menuItem -label "128";
+		menuItem -label "64";
+		menuItem -label "32";
+		optionMenu -edit -select 2 unWrapperMapSize;
+	
+	setParent ..;
+	rowLayout -numberOfColumns 2 -columnAttach2 "left" "left" -columnOffset2 5 0 -columnWidth 1 67 -columnWidth 2 30;
+		optionMenu -w 118 -label "padding" -height 17 unWrapperUVSpacer;
+		menuItem -label "32 pix";
+		menuItem -label "26 pix";
+		menuItem -label "20 pix";
+		menuItem -label "16 pix";
+		menuItem -label "12 pix";
+		menuItem -label "10 pix";
+		menuItem -label "8 pix";
+		menuItem -label "4 pix";
+		optionMenu -edit -select 7 unWrapperUVSpacer;
+	
+	setParent ..;
+	rowLayout -numberOfColumns 1 -columnAttach2 "left" "left" -columnOffset2 5 0 -columnWidth 1 50 -columnWidth 2 30;
+	iconTextButton -style "textOnly"
+		-label "unwrap"
+		-labelOffset 30
+		-backgroundColor 0.72 0.68 0.39
+		-width 124
+		-command "m341_unWrapper_Unwrap;"
+		-commandRepeatable 1;
+		
+	showWindow;
+}
+
+//***********************************************************************************************************************************************************
+//*Launch Window
+//***********************************************************************************************************************************************************
+if (`window -exists unWrapper_windowName`)
+{
+	deleteUI unWrapper_windowName;
+};
+
+$loadedPlugInsUnwrapButtons = `pluginInfo -q -loaded "Unfold3D.mll"`;
+{
+	if ($loadedPlugInsUnwrapButtons == 1)
+    {
+		m341_launch_UnwrapperInterface();
+		print ("Toolbox loaded " + $m341_unWrapperVersion + "\n");
+    }
+	
+	else if ($loadedPlugInsUnwrapButtons == 0)
+    {
+        loadPlugin "Unfold3D.mll";
+		pluginInfo -edit -autoload true "Unfold3D.mll";
+		m341_launch_UnwrapperInterface();
+		print ("Unfold3D.mll loaded, toolbox loaded " + $m341_unWrapperVersion + "\n");
+    }
+}
