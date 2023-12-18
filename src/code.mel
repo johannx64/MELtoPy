@@ -666,7 +666,7 @@ global proc m341_unWrapper_EasyUVs()
 	select $easyUVsSelectedOBJ;
 	DeleteHistory;
 	
-	//UVs by angle 
+	//UVs by angle  2
 	global int $m341_unWrapper_angle_UserInput;
 	if ($uvsByAngle_UnWrapperCheckMarkValue == 1)
 	{
